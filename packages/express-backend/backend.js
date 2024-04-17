@@ -80,6 +80,30 @@ app.post("/users", (req, res) => {
     res.send();
 });
 
+// implement a hard delete operation to remove a user by id from the list
+app.delete("/users/:id", (req, res) => {
+    const id = req.params["id"];
+    const userToDelete = findUserById(id);
+    if (userToDelete === undefined) {
+        res.status(404).send("Resource not found.");
+    } else {
+        const index = users["users_list"].indexOf(userToDelete);
+        users["users_list"].splice(index, 1);
+        res.send(userToDelete);
+    }
+});
+
+// implement an additional action to get all users that match a given name
+// and a given job
+app.get("/users/:name/:job", (req, res) => {
+    const name = req.params["name"];
+    const job = req.params["job"];
+    const result = users["users_list"].filter(
+        (user) => user["name"] === name && user["job"] === job
+    );
+    res.send({ users_list: result });
+});
+
 app.listen(port, () => {
     console.log(
         `Example app listening at http://localhost:${port}`
