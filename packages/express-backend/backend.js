@@ -78,8 +78,8 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send();
+    addUser(userToAdd);   
+    res.status(201).send(userToAdd);
 });
 
 // implement a hard delete operation to remove a user by id from the list

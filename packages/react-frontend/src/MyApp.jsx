@@ -35,15 +35,22 @@ function MyApp() {
     
     function postUser(person) {
         const promise = fetch("Http://localhost:8000/users", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(person),
-    });
-    
-    return promise;
-}
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(person),
+        })
+        .then((res) => {
+            if (res.status === 201) {
+                return res.json();
+            } else {
+                throw new Error("Failed to add user.");
+            }
+        });
+
+        return promise;
+    }
 
 return (
     <div className="container">
