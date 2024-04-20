@@ -37,6 +37,16 @@ const users = {
     ]
 };
 
+function generateRandomId() {
+    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const length = 6;
+    let randomId = '';
+    for (let i = 0; i < length; i++) {
+        randomId += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return randomId;
+}
+
 const findUserByName = (name) => {
     return users["users_list"].filter(
         (user) => user["name"] === name
@@ -47,8 +57,10 @@ const findUserById = (id) =>
 users["users_list"].find((user) => user["id"] === id);
 
 const addUser = (user) => {
-    users["users_list"].push(user);
-    return user;
+    const generated_id = generateRandomId();
+    const userWithId = {...user, id : generated_id};
+    users["users_list"].push(userWithId);
+    return userWithId;
 };
 
 app.get("/", (req, res) => {
@@ -78,8 +90,8 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);   
-    res.status(201).send(userToAdd);
+    const addedUser = addUser(userToAdd);
+    res.status(201).send(addedUser);
 });
 
 // implement a hard delete operation to remove a user by id from the list
@@ -91,7 +103,7 @@ app.delete("/users/:id", (req, res) => {
     } else {
         const index = users["users_list"].indexOf(userToDelete);
         users["users_list"].splice(index, 1);
-        res.send(userToDelete);
+        res.status(204).send(userToDelete);
     }
 });
 

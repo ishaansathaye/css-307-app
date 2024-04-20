@@ -14,15 +14,28 @@ function MyApp() {
     }, [] );
     
     function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-            return i !== index;
+        const url = `http://localhost:8000/users/${characters[index].id}`;
+        fetch(url, {
+            method: "DELETE",
+        })
+        .then((res) => {
+            if (res.status === 204) {
+                const updated = characters.filter((character, i) => {
+                    return i !== index;
+                });
+                setCharacters(updated);
+            } else {
+                throw new Error("Failed to delete user.");
+            }
+        })
+        .catch((error) => {
+            console.log(error);
         });
-        setCharacters(updated);
     }
     
     function updateList(person) { 
         postUser(person)
-        .then(() => setCharacters([...characters, person]))
+        .then((updatedUser) => setCharacters([...characters, updatedUser]))
         .catch((error) => {
             console.log(error);
         })
@@ -48,7 +61,6 @@ function MyApp() {
                 throw new Error("Failed to add user.");
             }
         });
-
         return promise;
     }
 
