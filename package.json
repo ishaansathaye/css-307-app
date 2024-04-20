@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run --workspace=packages/react-frontend dev",
-    "start dev": "npm run --workspace=packages/express-backend dev"
+    "start": "npm run --workspace=packages/react-frontend dev"
   },
   "author": "",
   "license": "ISC",
