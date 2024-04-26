@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Table from "./Table";
 import Form from "./Form";
 
@@ -14,7 +14,7 @@ function MyApp() {
     }, [] );
     
     function removeOneCharacter(index) {
-        const url = `http://localhost:8000/users/${characters[index].id}`;
+        const url = `http://localhost:8000/users/${characters[index]._id}`;
         fetch(url, {
             method: "DELETE",
         })
